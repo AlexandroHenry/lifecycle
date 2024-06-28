@@ -15,14 +15,28 @@ class AFragment : Fragment(), View.OnClickListener {
 
     private val binding get() = _binding!!
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         logger("onCreate 이 실행된다")
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        logger("onCreateView 이 실행된다")
+        _binding = FragmentABinding.inflate(inflater, container, false)
+
+        with(binding) {
+            moveBtn.setOnClickListener(this@AFragment)
+        }
+
+        return binding.root
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        logger("onViewStateRestored 이 실행된다")
     }
 
     override fun onStart() {
@@ -45,19 +59,20 @@ class AFragment : Fragment(), View.OnClickListener {
         logger("onStop 이 실행된다")
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        logger("onSaveInstanceState 이 실행된다")
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        logger("onCreateView 이 실행된다")
-        _binding = FragmentABinding.inflate(inflater, container, false)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        logger("onDestroyView 이 실행된다")
+        _binding = null
+    }
 
-        with(binding) {
-            moveBtn.setOnClickListener(this@AFragment)
-        }
-
-        return binding.root
+    override fun onDestroy() {
+        super.onDestroy()
+        logger("onDestroy 이 실행된다")
     }
 
     override fun onClick(v: View?) {
